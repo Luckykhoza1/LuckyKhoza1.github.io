@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Weather</title>
+</head>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var url = 'https://api.open-meteo.com/v1/forecast?latitude=46.06&longitude=-118.34&hourly=temperature_2m'
+        console.log(url);
+        fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            for (var i = 0; i< 10; i++) {
+            var temperature = data.hourly.time[i];
+
+            document.querySelector('#weather').innerHTML = temperature;
+            }
+
+        })
+
+
+
+
+
+    })
+</script>
+
+
+<body>
+
+    <section class="container">
+        <h1> You will soon find out the weather of your city.</h1>
+        <p id="weather"></p>
+    </section>
+    
+</body>
+</html>

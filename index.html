@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>TimeTour</title>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function(){
+            document.querySelector('#submit-btn').disabled = true;
+            
+            document.querySelector('#city').onkeyup = ()=>{
+                    if(document.querySelector('#city').value.length > 0) {
+                        document.querySelector('#submit-btn').disabled = false;
+                    }
+                    
+                    else {
+                        document.querySelector('#submit-btn').disabled = true;
+                    }
+                }
+            
+            document.querySelector('form').onsubmit = function() {
+    
+
+
+                var city = document.querySelector('#city').value;
+                var api = 'http://api.timezonedb.com/v2.1/get-time-zone?key=DN0VM4P7LX0B&format=json&by=zone&zone='
+                var url = api + city;
+                console.log(url);
+                fetch(url)
+                .then(res => res.json())
+                .then(data => {
+
+                var time = data.timestamp;
+                var newTime = new Date(time*1000).toUTCString();
+
+        
+                document.querySelector('#results').innerHTML = 'Time in ' + city + ' is ' + newTime;
+                document.querySelector('#city').value = '';
+                document.querySelector('#submit-btn').disabled = true;
+
+            })
+                return false;
+            }
+
+     
+            
+        })
+
+
+
+    </script>
+</head>
+<body>
+    <section class="nav">
+        <h3>
+            <ul>
+                <li>
+                    <a class="active" href="index.html">Time Zone</a>
+                </li>
+                <li>
+                    <a href="countdown.html">CountDown</a>
+                </li>
+                <li>
+                    <a href="about.html">About Us</a>
+                </li>
+            </ul> 
+        </h3>
+    </section>
+
+    <h1> We will tell you date  of a time zone you enter.</h1>
+    <p> We are using a free API and our responses are limited. 
+        Some time zones might not return if your input does not match the database.
+        If we don't match your input, the date will return in GMT.
+        Enter time zone. For example: America/Chicago</p>
+
+    <section class="container">
+        <form>
+            <input id="city" placeholder="name of city" type="text">
+            <input id= "submit-btn" type="submit" value="Show Time" >
+        </form>
+
+        <div id="results">
+        
+        </div>
+    </section>
+
+    <img src="imageTime.jpg" width="800">
+</body>
+<footer>Created by TimeTour. All rights reserved. &copy TimeTour.</footer>
+<a href="weather.html">Weather</a>
+</html>

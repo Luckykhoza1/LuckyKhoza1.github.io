@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+    <title>CountDown</title>
+</head>
+<body>
+    
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            document.querySelector("#submit-btn").disabled = true;
+            
+            document.querySelector("#futureDate").onkeyup = function() {
+                if (document.querySelector("#futureDate").value.length > 0) {
+                    document.querySelector("#submit-btn").disabled = false;
+                }
+                else {
+                    document.querySelector("#submit-btn").disabled = true;
+                }
+            }
+
+            document.querySelector("form").onsubmit = function() {
+
+                var userInput = document.querySelector("#futureDate").value;
+                var countDownDate = new Date(userInput).getTime(); //date we're counting down to.
+                var x = setInterval (function() {
+                var now = new Date().getTime(); //gets today's date and time
+                var distance = countDownDate - now; //distance from the date we're counting down to.
+
+                //Time calculations for days, hours, minutes, and seconds.
+                var days = Math.floor(distance/(1000*60*60*24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById("toGo").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s " + "left.";
+
+                document.querySelector("#futureDate").value = "";
+                document.querySelector("#submit-btn").disabled = true;
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.querySelector("toGo").innerHTML = "Expired";
+                }
+            }, 1000);
+
+                return false;
+                } 
+    })
+
+    </script>
+    <section class="nav">
+        <h3>
+            <ul>
+                <li>
+                    <a href="index.html">Time Zone</a>
+                </li>
+                <li>
+                    <a class="active" href="countdown.html">CountDown</a>
+                </li>
+                <li>
+                    <a href="about.html">About Us</a>
+                </li>
+            </ul>
+        </h3>
+
+    </section>
+
+    <section class="container">
+        <h1> How many days to go? </h1>
+        <p> Input format example: Nov 9, 2025 15:00:00</p>
+        <p id="note"> *Note: Time is displayed in 24-hours instead of AM and PM. And reload before a new submission.</p> 
+    </section>
+    <section class="container">
+        <form>
+            <input id="futureDate" placeholder = "Future Date" type="text">
+            <input id="submit-btn" placeholder="See Time" type="submit">
+        </form>
+
+        <h1 id="toGo"></h1>
+    </section> 
+    
+</body>
+<footer>Created by TimeTour. All rights reserved. &copy TimeTour.</footer>
+
+</html>
